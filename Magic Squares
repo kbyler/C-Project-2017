@@ -1,0 +1,237 @@
+#include <iostream>
+
+#include <math.h>
+
+using namespace std;
+
+
+int main() {
+
+
+	//Initialize a matrix and prompt the user to give it a size
+	int maxRSize;
+	int maxCSize;
+
+	cout << "Enter the size of a magic square:";
+
+	cin >> maxRSize; //The user's input equals the size of the rows
+
+	if (maxRSize < 0 || maxRSize > 25) {
+
+		cout << "Invalid size, program terminating";
+
+		return 0;
+	}
+
+	cout << endl;
+
+
+
+
+	//Create a 2D Matrix
+	maxCSize = maxRSize;
+
+
+	int **magic = new int*[maxRSize];
+
+
+	int i = 0;
+
+	for (i; i < maxRSize; i++) {
+
+		magic[i] = new int[maxCSize];
+	}
+
+	int row = 0;
+
+	int col = 0;
+
+
+
+	//Algorithm for Magic Squares
+	for (row = 0; row < maxRSize; row++) {
+
+		for (col = 0; col < maxCSize; col++) {
+
+
+			if (((((maxRSize - 1 + row) % maxRSize) == 0) && ((maxCSize - 1 + col) % maxCSize) == maxCSize - 1)) {
+
+				magic[(maxRSize - 1 + row) % maxRSize][(maxCSize - 1 + col) % maxCSize] = (maxRSize * ((row + col - 1 + static_cast<int>((maxRSize / 2))) % maxRSize) + (((row + 2 * col - 2) % maxRSize) + 1)) + maxRSize;
+
+			}
+
+
+			else if (((((maxRSize - 1 + row) % maxRSize) == maxRSize - 1) && ((maxCSize - 1 + col) % maxCSize) == maxCSize - 1)) {
+
+				magic[(maxRSize - 1 + row) % maxRSize][(maxCSize - 1 + col) % maxCSize] = (maxRSize * ((row + col - 1 + static_cast<int>((maxRSize / 2))) % maxRSize) + (((row + 2 * col - 2) % maxRSize) + 1)) + maxRSize;
+
+			}
+
+
+			else {
+
+				magic[(maxRSize - 1 + row) % maxRSize][(maxCSize - 1 + col) % maxCSize] = maxRSize * ((row + col - 1 + static_cast<int>((maxRSize / 2))) % maxRSize) + ((row + 2 * col - 2) % maxRSize) + 1;
+
+				cout << endl;
+
+			}
+
+		}
+
+
+	}
+
+
+
+
+
+		//Prints the first matrix with magic indeces
+		for (int rowSize = 0; rowSize < maxRSize; rowSize++) {
+
+			for (int colSize = 0; colSize < maxCSize; colSize++)
+
+				cout << magic[rowSize][colSize] << " ";
+
+
+			cout << endl;
+
+		}
+
+		cout << "\n";
+
+
+		//This part of the function transforms the 'print' the magic matrix, 3 times
+		//The 'transformed print' mimics row and column swaps 
+
+
+		//The first transformation
+
+		for (int rowSize = maxRSize - 1; rowSize >= 0; rowSize--) {
+
+			for (int colSize = maxCSize - 1; colSize >= 0; colSize--)
+
+				cout << magic[rowSize][colSize] << " ";
+
+			cout << endl;
+
+		}
+
+		cout << "\n";
+
+
+
+
+		//Print the second transformation
+		int j = 0;
+
+		while (j <= maxRSize - 1) {
+
+			j++;
+
+			for (int rowSize = maxRSize - 1; rowSize >= 0; rowSize--) {
+
+				cout << magic[rowSize][maxCSize - j] << " ";
+
+			}
+
+			cout << endl;
+
+		}
+
+		cout << "\n";
+
+
+
+
+		//Print the third transformation
+		int k = -1;
+
+		while (k <= maxCSize - 2) {
+
+
+			k++;
+
+
+			for (int rowSize = 0; rowSize < maxRSize; rowSize++) {
+
+				cout << magic[rowSize][k] << " ";
+
+			}
+
+			cout << endl;
+
+		}
+
+		//Sums rows, columns, and diagonal of magic square
+
+		cout << "\n";
+		cout << "Sum of rows: ";
+		
+		int sumRows = 0;
+		
+		int rowCount = -1;
+		int elemRCount = 0;
+		while (rowCount < maxRSize - 1) {
+			rowCount++;
+
+			for (int i = 0; i < maxRSize; i++) {
+				sumRows += magic[rowCount][i];    
+			}
+				
+				elemRCount++;
+			
+				cout << sumRows/elemRCount << " "; 
+			
+		}
+
+		cout << "\n";
+
+		cout << "Sum of columns: ";
+		int sumCols = 0;
+
+		int colCount = -1;
+		int elemCCount = 0;
+
+		while (colCount < maxCSize - 1) {
+			colCount++;
+
+			for (int j = 0; j < maxCSize; j++) {
+				sumCols += magic[j][colCount]; 
+			}
+
+			elemCCount++;
+				cout << sumCols/elemCCount << " "; 
+
+		}
+
+		cout << "\n";
+		
+		int sumMainD = 0;
+		int sumD = 0;
+		
+		for (int row = 0; row < maxRSize; row++)
+
+			for (int col = 0; col < maxCSize; col++) {
+
+				if (row == col) {
+					sumMainD += magic[row][col]; 
+
+				}
+				if (row + col == maxRSize - 1) {
+					sumD += magic[row][col]; 
+				}
+
+			}
+
+		cout << "Sum of diagonals: " << sumMainD<< " ";
+		cout << sumD;
+		cout << "\n";
+
+	return 0;
+
+
+
+}
+
+
+
